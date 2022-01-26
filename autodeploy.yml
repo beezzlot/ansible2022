@@ -1,0 +1,10 @@
+---
+- hosts: routers
+  tasks:
+    - name: Configure packet forwarding
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: net.ipv4.ip_forward=1
+        insertafter: EOF
+    - name: Apply sysctl config-file
+      shell: sysctl -p

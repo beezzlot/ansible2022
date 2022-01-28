@@ -12,6 +12,7 @@
       apt:
         pkg:
           - iptables-*
+          - strongswan
 - hosts: 200.100.200.100
   tasks:
     - name: Configure iptables
@@ -25,6 +26,32 @@
       community.general.iptables_state:
         state: saved
         path: /etc/iptables/rules.v4
+    - name: Set GRE Tunnel
+      copy:
+        src: ./FW_gre.up
+        dest: /etc/FW_gre.up
+        mode: "0777"
+    - name: Start GRE Tunnel
+      shell: /etc/FW_gre.up
+      ignore_errors: true
+    - name: Set crontab
+      lineinfile: 
+       path: /etc/crontab
+       line: "@reboot root /etc/FW_gre.up"
+       insertafter: EOF
+    - name: Ipsec Config
+      copy:
+        src: ./ipsec_FW.conf
+        copy: /etc/ipsec.conf
+    - name: Ipsec Secrets
+      lineinfile: 
+       path: /etc/ipsec.secrets
+       line: '200.100.100.100 200.100.200.100 : PSK "2022"'
+       insertafter: EOF
+    - name: Ipsec Start
+      shell: ipsec start
+      ignore_errors: true
+
     - name: Check Hostname
       command: hostname
       register: hostname
@@ -57,11 +84,25 @@
         mode: "0777"
     - name: Start GRE Tunnel
       shell: /etc/CSR_gre.up
+      ignore_errors: true
     - name: Set crontab 
       lineinfile:
         path: /etc/crontab
         line: "@reboot root /etc/CSR_gre.up"
         insertafter: EOF
+    - name: Ipsec Config
+      copy:
+        src: ./ipsec_CSR.conf
+        copy: /etc/ipsec.conf
+    - name: Ipsec Secrets
+      lineinfile: 
+       path: /etc/ipsec.secrets
+       line: '200.100.100.100 200.100.200.100 : PSK "2022"'
+       insertafter: EOF
+    - name: Ipsec Start
+      shell: ipsec start
+      ignore_errors: true
+
     - name: Check Hostname
       command: hostname
       register: hostname

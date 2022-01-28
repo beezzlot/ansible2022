@@ -50,6 +50,18 @@
       community.general.iptables_state:
         state: saved
         path: /etc/iptables/rules.v4
+    - name: Configure GRE Tunnel
+      copy:
+        src: ./CSR_gre.up
+        dest: /etc/CSR_gre.up
+        mode: "0777"
+    - name: Start GRE Tunnel
+      shell: /etc/CSR_gre.up
+    - name: Set crontab 
+      lineinfile:
+        path: /etc/crontab
+        line: "@reboot root /etc/CSR_gre.up"
+        insertafter: EOF
     - name: Check Hostname
       command: hostname
       register: hostname

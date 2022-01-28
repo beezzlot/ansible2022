@@ -42,7 +42,8 @@
     - name: Ipsec Config
       copy:
         src: ./ipsec_FW.conf
-        copy: /etc/ipsec.conf
+        dest: /etc/ipsec.conf
+        mode: "0655"
     - name: Ipsec Secrets
       lineinfile: 
        path: /etc/ipsec.secrets
@@ -93,7 +94,9 @@
     - name: Ipsec Config
       copy:
         src: ./ipsec_CSR.conf
-        copy: /etc/ipsec.conf
+        dest: /etc/ipsec.conf
+        mode: "0655"
+
     - name: Ipsec Secrets
       lineinfile: 
        path: /etc/ipsec.secrets

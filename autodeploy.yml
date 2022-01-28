@@ -52,7 +52,8 @@
     - name: Ipsec Start
       shell: ipsec start
       ignore_errors: true
-
+    - name: create static route
+      shell: ip route add 192.168.0.0 255.255.0.0 via 10.5.5.1
     - name: Check Hostname
       command: hostname
       register: hostname
@@ -105,6 +106,8 @@
     - name: Ipsec Start
       shell: ipsec start
       ignore_errors: true
+    - name: Create static routes
+      shell: ip route add 172.16.0.0 255.255.0.0 via 10.5.5.2
 
     - name: Check Hostname
       command: hostname

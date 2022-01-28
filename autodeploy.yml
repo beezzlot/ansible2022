@@ -25,6 +25,17 @@
       community.general.iptables_state:
         state: saved
         path: /etc/iptables/rules.v4
+    - name: Check Hostname
+      command: hostname
+      register: hostname
+    - name: Set hostname
+      hostname:
+        name: FW
+        when: hostname.stdout != "FW"
+    - name: Reboot if hostname was changed
+      reboot:
+      when: hostname.stdout != "FW"
+
 
 - hosts: 200.100.100.100
   tasks:
@@ -45,6 +56,7 @@
     - name: Set Hostname
       hostname: 
         name: CSR
+        when: hostname.stdout != "CSR"
     - name: After change hostname = reboot
       reboot:
       when: hostname.stdout != "CSR"

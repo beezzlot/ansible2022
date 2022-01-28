@@ -108,7 +108,7 @@
       shell: ipsec start
       ignore_errors: true
     - name: Create static routes
-      shell: ip route add 172.16.0.0/16 via 10.5.5.2
+      shell: ip route add 172.20.0.0/16 via 10.5.5.2
       ignore_errors: true
 
     - name: Check Hostname

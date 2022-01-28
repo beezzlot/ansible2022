@@ -8,10 +8,6 @@
         insertafter: EOF
     - name: Apply sysctl config-file
       shell: sysctl -p
-    - name: Update apt
-      ignore_errors: true
-      apt:
-        update_cache: yes
     - name: Install package
       apt:
         pkg:
@@ -25,4 +21,32 @@
        src_range: 172.20.0.0-172.20.255.255
        out_interface: ens192
        jump: MASQUERADE
-    - name: Savev iptables
+    - name: Saved iptables
+      community.general.iptables_state:
+        state: saved
+        path: /etc/iptables/rules.v4
+
+- hosts: 200.100.100.100
+  tasks:
+    - name: Configure iptables
+      iptables:
+        table: nat
+        chain: POSTROUTING
+        src_range: 192.168.0.0-192.168.255.255
+        out_interface: ens192
+        jump: MASQUERADE
+    - name: Saved iptables
+      community.general.iptables_state:
+        state: saved
+        path: /etc/iptables/rules.v4
+    - name: Check Hostname
+      command: hostname
+      register: hostname
+    - name: Set Hostname
+      hostname: 
+        name: CSR
+    - name: After change hostname = reboot
+      reboot:
+      when: hostname.stdout != "CSR"
+
+

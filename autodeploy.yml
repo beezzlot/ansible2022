@@ -31,7 +31,6 @@
     - name: Set hostname
       hostname:
         name: FW
-        when: hostname.stdout != "FW"
     - name: Reboot if hostname was changed
       reboot:
       when: hostname.stdout != "FW"

@@ -179,6 +179,8 @@
 
    
 - hosts: 172.20.30.20
+  vars_files:
+    - ./vars.yml
   tasks:
     - name: Configure Keepalived
       copy:

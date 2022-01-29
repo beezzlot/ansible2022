@@ -200,7 +200,14 @@
       service:
         name: keepalived
         state: restarted
-
-
-
+    - name: Check Hostname
+      command: hostname
+      register: hostname200
+    - name: Set Hostname
+      hostname:
+        name: "{{ vm_name_srv2 }}"
+      when: hostname200.stdout != "{{ vm_name_srv2 }}"
+    - name: After Change hostname = reboot
+      reboot:
+      when: hostname200.stdout != "{{ vm_name_srv2 }}"
 

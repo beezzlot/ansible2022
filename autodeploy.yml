@@ -142,6 +142,28 @@
       service:
         name: chronyd
         state: restarted
+- hosts: 172.20.30.100
+  tasks:
+    - name: Configure Keepalived
+      copy:
+        src: ./keepalived_SRV1.conf
+        dest: /etc/keepalived/keepalived.conf
+        mode: "0655"
+    - name: Restarted Keepalived
+      service:
+        name: keepalived
+        state: restarted
+- hosts: 172.20.30.20
+  tasks:
+    - name: Configure Keepalived
+      copy:
+        src: ./keepalived_SRV2.conf
+        dest: /etc/keepalived/keepalived.conf
+        mode: "0655"
+    - name: Restarted Keepalived
+      service:
+        name: keepalived
+        state: restarted
 
 
 

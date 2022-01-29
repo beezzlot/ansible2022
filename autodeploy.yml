@@ -121,5 +121,16 @@
     - name: After change hostname = reboot
       reboot:
       when: hostname.stdout != "CSR"
+###############################################################################
+- hosts: central
+  tasks:
+    - name: Install Package
+      apt:
+        pkg:
+          - chrony
+          - bind9
+          - nginx
+          - keepalived
+
 
 

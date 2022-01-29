@@ -131,6 +131,18 @@
           - bind9
           - nginx
           - keepalived
+- hosts: 172.20.30.100 172.20.30.20
+  tasks:
+    - name: Configrue Chrony
+      copy:
+        src: ./chrony_SRV.conf
+        dest: /etc/chrony/chrony.conf
+        mode: "0655"
+    - name: Restarted Chrony
+      service:
+        name: chronyd
+        state: restarted
+
 
 
 

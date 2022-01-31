@@ -131,6 +131,8 @@
           - bind9
           - nginx
           - keepalived
+          - docker 
+          - docker.io
 - hosts: 172.20.30.100 172.20.30.20
   tasks:
     - name: Configrue Chrony
@@ -177,11 +179,21 @@
       reboot:
       when: hostname100.stdout != "{{ vm_name_srv1 }}"
 
+    - name: Docker Deploy
+      docker_container:
+        name: WebSite
+        state: started
+        image: beezzlot/docker-test
+        ports:
+          - "80:8080"
+
+
    
 - hosts: 172.20.30.20
   vars_files:
     - ./vars.yml
   tasks:
+ 
     - name: Configure Keepalived
       copy:
         src: ./keepalived_SRV2.conf

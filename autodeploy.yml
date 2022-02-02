@@ -149,15 +149,20 @@
       service:
         name: chronyd
         state: restarted
-    - name: Open port UFW
+
+    - name: Open port UFW for http
       ufw:
         state: enabled
         rule: allow
-        port:
-          - '80'
-          - '8080'
-          - '1337'
-          - '443' 
+        port: '80'
+    - name: Open port UFW for https
+      ufw:
+        rule: allow
+        port: '443'
+    - name: Open port UFW for ssh
+      ufw:
+        rule: allow
+        port: '22'
 
 - hosts: 172.20.30.100
   vars_files:

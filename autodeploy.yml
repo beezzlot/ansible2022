@@ -124,6 +124,9 @@
 ###############################################################################
 - hosts: central
   tasks:
+    - name: Update Apt
+      apt:
+        update_cache: yes
     - name: Install Package
       apt:
         pkg:
@@ -133,6 +136,8 @@
           - keepalived
           - docker 
           - docker.io
+          - ufw
+
 - hosts: 172.20.30.100 172.20.30.20
   tasks:
     - name: Configrue Chrony
@@ -144,6 +149,15 @@
       service:
         name: chronyd
         state: restarted
+    - name: Open port UFW
+      ufw:
+        state: enabled
+        rule: allow
+        port:
+          - '80'
+          - '8080'
+          - '1337'
+          - '443' 
 
 - hosts: 172.20.30.100
   vars_files:

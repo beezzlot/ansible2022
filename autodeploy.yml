@@ -233,6 +233,18 @@
     - name: Install Docker module for python
       pip:
         name: docker
+    - name: Docker Deploy
+      community.docker.docker_container:
+        name: WebSite
+        state: started
+        image: beezzlot/docker-test
+        ports:
+          - "80:8080"
+
+
+
+
+
 
     - name: Restarted Keepalived
       service:

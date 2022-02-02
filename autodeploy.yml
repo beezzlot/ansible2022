@@ -13,6 +13,7 @@
         pkg:
           - iptables-*
           - strongswan
+          - nginx
 - hosts: 200.100.200.100
   tasks:
     - name: Configure iptables
@@ -65,6 +66,15 @@
     - name: Reboot if hostname was changed
       reboot:
       when: hostname.stdout != "FW"
+    - name: Configure Nginx Proxy
+      copy:
+        src: ./proxy.conf
+        dest: /etc/nginx/sites-enabled/proxy.conf
+        mode: "0655"
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
 
 
 - hosts: 200.100.100.100

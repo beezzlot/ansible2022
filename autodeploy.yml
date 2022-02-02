@@ -137,6 +137,7 @@
           - docker 
           - docker.io
           - ufw
+          - pip
 
 - hosts: 172.20.30.100 172.20.30.20
   tasks:
@@ -199,7 +200,7 @@
       when: hostname100.stdout != "{{ vm_name_srv1 }}"
 
     - name: Docker Deploy
-      docker_container:
+      community.docker.docker_container:
         name: WebSite
         state: started
         image: beezzlot/docker-test
@@ -228,6 +229,10 @@
         src: ./ntp_check
         dest: /usr/ntp_check
         mode: "0777"
+
+    - name: Install Docker module for python
+      pip:
+        name: docker
 
     - name: Restarted Keepalived
       service:

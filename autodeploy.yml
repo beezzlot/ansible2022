@@ -179,6 +179,10 @@
       ufw:
         rule: allow
         port: '1777'
+    - name: Open Port for UFW for new ssh
+      ufw:
+        rule: allow
+        port: 2022
     - name: Install Pip for docker compose
       pip:
         name: docker-compose
@@ -197,6 +201,7 @@
       copy:
         src: ./docker-compose.yml
         dest: /opt/project/docker-compose.yml
+
     - name: deploy DockerCompose
       docker_compose:
         project_src: /opt/project/
@@ -266,6 +271,15 @@
         image: beezzlot/docker-test
         ports:
           - "80:8080"
+    - name: Configure SSH
+      copy:
+        src: ./sshd_config
+        dest: /etc/ssh/sshd_config
+    - name: Restart ssh
+      service:
+        name: sshd
+        state: restarted
+
 
 
    

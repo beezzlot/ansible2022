@@ -9,7 +9,7 @@ services:
   phppgadmin:
     image: docker.io/bitnami/phppgadmin:7
     ports:
-      - '8080:8080'
+      - '1777:8080'
       - '8443:8443'
     depends_on:
       - postgresql

@@ -27,3 +27,17 @@ userPassword: P@ssw0rd
 
 
 ldapadd -x -W -D -f file
+
+
+CLIENT
+1) apt install libpam-ldap libpam-ldapd
+2) dpkg-reconfigure libpam-ldap (server (ldap://), ver=3, all NO, pass=clear, all marking)
+3) apt install libpam-ldapd (all marks and check correct settings) 
+
+
+NEXT
+/etc/pam.d/login addedd "account required pam_access.so"
+Next
+/etc/security/access.conf
+-:ALL EXCEPT root Experts1 and etc
+

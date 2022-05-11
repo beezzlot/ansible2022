@@ -1,0 +1,8 @@
+apt install libpam-mount
+(check /etc/pam.d common-session and common-auth)
+<volume options="_netdev,timeo=14,intr" mountpount="/mnt/home" path="/mnt/share" server="4.4.4.100" fstype="nfs" >
+<and>
+  <pgrp>localadmin</pgrp>
+  </and>
+ </volume>
+ 

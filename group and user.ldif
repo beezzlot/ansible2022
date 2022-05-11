@@ -1,0 +1,29 @@
+SERVER
+apt install slapd ldap-utils -y
+
+
+group:
+dn: ou=Groups,dc=rsvpu,dc=skills
+objectClass: organizationalUnit
+ou: Groups
+
+dn: cn=Uzvers,ou=Groups,dc=rsvpu,dc=skills
+objectClass: posixGroup
+cn: Uzvers
+gidNumber: 77777
+
+user:
+dn: cn=experts2,ou=experts,dc=rsvpu,dc=skills
+objectClass: inetorgperson
+objectClass: posixAccount
+cn: experts2
+uid: experts2
+sn: experts2
+uidNumber: 17894
+gidNumber: 77777
+loginShell: /bin/bash
+homeDirectory: /home/experts2
+userPassword: P@ssw0rd
+
+
+ldapadd -x -W -D -f file
